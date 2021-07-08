@@ -1,5 +1,4 @@
-type Post @model @auth(rules: [{allow: public, operations: [read]}, {allow: owner, operations: [create, update, delete]}, {allow: groups, groups: ["Admins"], operations: [delete, read]}]) {
+type Post @model {
   id: ID!
   content: String!
 }
- 

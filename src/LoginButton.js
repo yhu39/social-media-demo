@@ -1,8 +1,6 @@
 function LoginButton({ currentUser, onLogin, onLogout }) {
-    console.log(currentUser)
     if (currentUser) {
         return <button className="user-button" onClick={onLogout}>
-            {/* <img className="avatar" src="https://source.unsplash.com/random" /> */}
             <div className="username">
                 😀 {currentUser.attributes.email}
             </div>
