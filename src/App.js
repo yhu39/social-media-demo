@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import LoginButton from './LoginButton';
 import LoginPopup from './LoginPopup';
+import { AuthState } from '@aws-amplify/ui-components';
 
 function App() {
   const [posts, setPosts] = useState([])
@@ -14,8 +15,10 @@ function App() {
   const checkLoginState = async () => {
     try {
       const currentUser = await Auth.currentAuthenticatedUser()
-      setCurrentUser(currentUser)
-      setShowAuthenticator(false)
+      if (currentUser) {
+        setCurrentUser(currentUser)
+        setShowAuthenticator(false)
+      }
     } catch (e) {
       setCurrentUser(null)
     }
@@ -23,10 +26,13 @@ function App() {
 
   useEffect(async () => {
     checkLoginState()
-
-    setPosts(await DataStore.query(Post))
-    const subscription = DataStore.observe(Post).subscribe(async () => {
+    const loadPosts = async () => {
       setPosts(await DataStore.query(Post))
+    }
+    loadPosts()
+
+    const subscription = DataStore.observe(Post).subscribe(() => {
+      loadPosts()
     })
 
     return () => subscription.unsubscribe()
@@ -37,7 +43,7 @@ function App() {
       <nav>
         <LoginButton
           onLogin={() => setShowAuthenticator(true)}
-          isLoggedIn={currentUser !== null}
+          currentUser={currentUser}
           onLogout={async () => {
             await Auth.signOut()
             checkLoginState()
@@ -47,7 +53,7 @@ function App() {
             content: window.prompt('New post:')
           }))
         }}>
-          Add a new post
+          📝 Add a new post
         </button>
       </nav>
       <div className="posts">
@@ -56,7 +62,7 @@ function App() {
       </div>
       {showAuthenticator && 
         <LoginPopup
-          onAuthStateChange={() => checkLoginState()}
+        onAuthStateChange={(nextAuthState) => { if (nextAuthState === AuthState.SignedIn) { checkLoginState() } }}
           onCancel={() => setShowAuthenticator(false)}/>}
     </div>
   );

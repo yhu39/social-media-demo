@@ -1,9 +1,9 @@
-function LoginButton({ isLoggedIn, onLogin, onLogout }) {
-    if (isLoggedIn) {
+function LoginButton({ currentUser, onLogin, onLogout }) {
+    if (currentUser) {
         return <button className="user-button" onClick={onLogout}>
-            <img className="avatar" src="https://source.unsplash.com/random" />
+            {/* <img className="avatar" src="https://source.unsplash.com/random" /> */}
             <div className="username">
-                Rene Brandel
+                😀 {currentUser.attributes.email}
             </div>
             <div className="log-out">
                 Log out
