@@ -48,17 +48,19 @@ function App() {
             await Auth.signOut()
             checkLoginState()
           }} />
-        <button onClick={() => {
-          DataStore.save(new Post({
-            content: window.prompt('New post:')
-          }))
-        }}>
-          📝 Add a new post
-        </button>
+        {currentUser &&
+          <button onClick={() => {
+            DataStore.save(new Post({
+              content: window.prompt('New post:')
+            }))
+          }}>
+            📝 Add a new post
+          </button>
+        }
       </nav>
       <div className="posts">
         <h1>Posts</h1>
-        {posts.map(post => <PostView post={post} />)}
+        {posts.map(post => <PostView post={post} currentUser={currentUser}/>)}
       </div>
       {showAuthenticator && 
         <LoginPopup

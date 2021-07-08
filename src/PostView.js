@@ -1,15 +1,16 @@
 import { DataStore } from 'aws-amplify';
 
-function PostView({ post }) {
+function PostView({ post, currentUser }) {
     return <div className="post">
         <div className="content">
             {post.content}
         </div>
         <div>
-            {/* <button>Add comment</button> */}
-            <button onClick={async () => {
+            {(currentUser.attributes.sub === post.owner 
+               || currentUser.signInUserSession.accessToken.payload['cognito:groups'].includes('Admins'))
+             && <button onClick={async () => {
                 await DataStore.delete(post)
-            }}>Delete</button>
+            }}>Delete</button>}
         </div>
     </div>
 }
