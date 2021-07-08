@@ -9,7 +9,7 @@ import awsconfig from './aws-exports'
 Amplify.configure({
   ...awsconfig,
   DataStore: {
-    authModeStrategyType: AuthModeStrategyType.MULTI_AUTH
+    authModeStrategyType: AuthModeStrategyType.DEFAULT
   }
 })
 
