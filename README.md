@@ -1,6 +1,6 @@
 # Getting Started with AWS Amplify DataStore
 
-This project was created to showcase DataStore's new authorization capabilities. Read through the full tutorial here: TBD
+This project was created to showcase DataStore's new authorization capabilities. Read through the full tutorial here: https://aws.amazon.com/blogs/mobile/aws-amplify-allows-you-to-mix-and-match-authorization-modes-in-datastore/
 
 The "main" branch is the starting point for this tutorial and the "final" branch for the completed app with all authorization rules applied.
 
